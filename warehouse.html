@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Warehouse Management</title>
+    <style>
+        /* General Reset */
+
+/* From Uiverse.io by Mhyar-nsi */ 
+button {
+  background-color: #f3f7fe;
+  color: #3b82f6;
+  border: none;
+  cursor: pointer;
+  border-radius: 8px;
+  width: 100px;
+  height: 45px;
+  transition: 0.3s;
+}
+
+button:hover {
+  background-color: #3b82f6;
+  box-shadow: 0 0 0 5px #3b83f65f;
+  color: #fff;
+}
+
+
+body, h1, h2, h3, p, ul, li, input, button {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: #f5f5f7;
+    color: #1d1d1f;
+    margin: 0;
+    padding: 0;
+}
+
+/* Navbar */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ffffff;
+    padding: 10px 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.logo-title {
+    display: flex;
+    align-items: center;
+}
+
+.logo-title img {
+    height: 24px;
+    margin-right: 10px;
+}
+
+.logo-title h1 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1d1d1f;
+}
+
+.warehouse-name {
+    font-weight: 500;
+    color: #0071e3;
+}
+
+/* Add Product Form */
+.add-product {
+    background-color: #ffffff;
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+}
+
+.add-product h2 {
+    margin-bottom: 15px;
+    font-size: 18px;
+    color: #333;
+    text-align: center;
+}
+
+#addProductForm {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+#addProductForm input {
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #d1d1d6;
+    border-radius: 6px;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+#addProductForm input:focus {
+    border-color: #0071e3;
+}
+
+#addProductForm button {
+    padding: 10px;
+    font-size: 14px;
+    color: #ffffff;
+    background-color: #0071e3;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#addProductForm button:hover {
+    background-color: #005bb5;
+}
+
+/* Product Cards */
+.card-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
+
+.card {
+    width:100% ;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+.card h3 {
+    font-size: 14px;
+    margin: 10px;
+    color: #1d1d1f;
+}
+
+.card p {
+    font-size: 12px;
+    margin: 10px;
+    color: #666;
+}
+
+.card img {
+    width: 100%;
+    height: auto;
+}
+
+.card .edit-input {
+    display: none;
+    padding: 10px;
+    background-color: #f9f9f9;
+}
+
+.card .edit-input input {
+    width: calc(50% - 10px);
+    margin-right: 10px;
+    padding: 8px;
+    font-size: 12px;
+    border: 1px solid #d1d1d6;
+    border-radius: 6px;
+    outline: none;
+}
+
+.card .edit-input button {
+    padding: 8px 10px;
+    font-size: 12px;
+    background-color: #0071e3;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.card button {
+    margin: 10px;
+    padding: 8px;
+    font-size: 12px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.card .edit-btn {
+    background-color: #0071e3;
+    color: #ffffff;
+}
+
+.card .edit-btn:hover {
+    background-color: #005bb5;
+}
+
+.card .delete-btn {
+    background-color: #ff3b30;
+    color: #ffffff;
+}
+
+.card .delete-btn:hover {
+    background-color: #c92a1f;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .add-product {
+        margin: 10px;
+        padding: 15px;
+        max-width: 90%;
+    }
+
+    .card-container {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 15px;
+    }
+
+    .card h3, .card p {
+        font-size: 12px;
+    }
+
+    #addProductForm input {
+        font-size: 12px;
+        padding: 8px;
+    }
+
+    #addProductForm button {
+        font-size: 12px;
+        padding: 8px;
+    }
+}
+
+
+
+    </style>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+    
+        const firebaseConfig = {
+            apiKey: "AIzaSyCAZvPR5SJ-GGfX8A4PZHZN8uQnu1SPBrI",
+            authDomain: "zoloww-2603e.firebaseapp.com",
+            projectId: "zoloww-2603e",
+            storageBucket: "zoloww-2603e.appspot.com",
+            messagingSenderId: "160528827172",
+            appId: "1:160528827172:web:07a67d55c46162ab3ea9b1",
+            measurementId: "G-HZDMTV126S"
+        };
+    
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+    
+        document.addEventListener('DOMContentLoaded', async () => {
+            const warehouseId = sessionStorage.getItem('currentWarehouseId');
+            const warehouseName = sessionStorage.getItem('currentWarehouseName');
+    
+            if (!warehouseId || !warehouseName) {
+                alert('Please log in first!');
+                window.location.href = 'login.html';
+                return;
+            }
+    
+            document.querySelector('.warehouse-name').textContent = warehouseName;
+            await loadWarehouseProducts(warehouseId);
+    
+            // Adding the status toggle functionality
+            const statusToggle = document.getElementById('statusToggle');
+            const statusLabel = document.getElementById('statusLabel');
+            let currentStatus = false; // Default status
+    
+            const warehouseRef = doc(db, 'warehouses', warehouseId);
+            const warehouseDoc = await getDoc(warehouseRef);
+            if (warehouseDoc.exists()) {
+                currentStatus = warehouseDoc.data().status || false;
+                statusLabel.textContent = currentStatus ? 'Live' : 'Unlive';
+            }
+    
+            statusToggle.addEventListener('click', async () => {
+                currentStatus = !currentStatus;
+                statusLabel.textContent = currentStatus ? 'Live' : 'Unlive';
+    
+                try {
+                    await updateDoc(warehouseRef, { status: currentStatus });
+                    alert(`Status updated to ${currentStatus ? 'Live' : 'Unlive'}`);
+                    location.reload(); // Reload to reflect the status change
+                } catch (error) {
+                    console.error('Error updating status: ', error);
+                }
+            });
+    
+            document.getElementById('addProductForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const productName = document.getElementById('productName').value.trim();
+                const packageType = document.getElementById('packageType').value.trim();
+                const quantity = document.getElementById('quantity').value.trim();
+                const price = document.getElementById('price').value.trim();
+                const imageurl = document.getElementById('imageurl').value.trim();
+    
+                if (!productName || !packageType || !quantity || !price || !imageurl) {
+                    alert('Please fill out all fields.');
+                    return;
+                }
+    
+                try {
+                    const warehouseRef = doc(db, 'warehouses', warehouseId);
+                    const warehouseDoc = await getDoc(warehouseRef);
+                    const currentProducts = warehouseDoc.data().products || {};
+    
+                    if (currentProducts[productName]) {
+                        alert('Product already exists.');
+                        return;
+                    }
+    
+                    currentProducts[productName] = {
+                        packageType,
+                        quantity: parseInt(quantity, 10),
+                        price: parseFloat(price),
+                        imageurl
+                    };
+    
+                    await updateDoc(warehouseRef, { products: currentProducts });
+                    alert('Product added successfully!');
+                    document.getElementById('addProductForm').reset();
+                    await loadWarehouseProducts(warehouseId);
+                } catch (error) {
+                    console.error('Error adding product: ', error);
+                    alert('Failed to add product. Please try again.');
+                }
+            });
+        });
+    
+        async function loadWarehouseProducts(warehouseId) {
+            const cardContainer = document.getElementById('productCardContainer');
+            cardContainer.innerHTML = '';
+    
+            const warehouseDocRef = doc(db, 'warehouses', warehouseId);
+            const warehouseDoc = await getDoc(warehouseDocRef);
+    
+            if (warehouseDoc.exists()) {
+                const data = warehouseDoc.data();
+                const products = data.products || {};
+    
+                for (let product in products) {
+                    const productData = products[product];
+                    const card = document.createElement('div');
+                    card.classList.add('card');
+                    card.innerHTML = `
+                        <h3>${product}</h3>
+                        <p><strong>Package Type:</strong> ${productData.packageType}</p>
+                        <p><strong>Quantity:</strong> <span class="quantity">${productData.quantity}</span></p>
+                        <p><strong>Price:</strong> $<span class="price">${productData.price}</span></p>
+                        <img src="${productData.imageurl}" alt="${product}" style="width: 100%; height: auto;">
+                        <div class="edit-input">
+                            <input type="number" class="edit-quantity" placeholder="New Quantity" value="${productData.quantity}">
+                            <input type="number" class="edit-price" placeholder="New Price" value="${productData.price}">
+                            <button class="save-btn">Save</button>
+                        </div>
+                        <button class="edit-btn">Edit</button>
+                        <button class="delete-btn">Delete</button>
+                    `;
+    
+                    const editBtn = card.querySelector('.edit-btn');
+                    const saveBtn = card.querySelector('.save-btn');
+                    const deleteBtn = card.querySelector('.delete-btn');
+                    const editInput = card.querySelector('.edit-input');
+                    const quantityEl = card.querySelector('.quantity');
+                    const priceEl = card.querySelector('.price');
+    
+                    editBtn.addEventListener('click', () => {
+                        editInput.style.display = 'block';
+                        editBtn.style.display = 'none';
+                    });
+    
+                    saveBtn.addEventListener('click', async () => {
+                        const newQuantity = card.querySelector('.edit-quantity').value;
+                        const newPrice = card.querySelector('.edit-price').value;
+    
+                        try {
+                            const warehouseRef = doc(db, 'warehouses', warehouseId);
+                            const warehouseDoc = await getDoc(warehouseRef);
+                            const currentProducts = warehouseDoc.data().products || {};
+                            currentProducts[product].quantity = parseInt(newQuantity, 10);
+                            currentProducts[product].price = parseFloat(newPrice);
+                            await updateDoc(warehouseRef, { products: currentProducts });
+                            quantityEl.textContent = newQuantity;
+                            priceEl.textContent = newPrice;
+                            editInput.style.display = 'none';
+                            editBtn.style.display = 'block';
+                            alert('Product updated successfully!');
+                        } catch (error) {
+                            console.error('Error updating product: ', error);
+                            alert('Failed to update product. Please try again.');
+                        }
+                    });
+    
+                    deleteBtn.addEventListener('click', async () => {
+                        if (!confirm('Are you sure you want to delete this product?')) return;
+    
+                        try {
+                            const warehouseRef = doc(db, 'warehouses', warehouseId);
+                            const warehouseDoc = await getDoc(warehouseRef);
+                            const currentProducts = warehouseDoc.data().products || {};
+                            delete currentProducts[product];
+                            await updateDoc(warehouseRef, { products: currentProducts });
+                            alert('Product deleted successfully!');
+                            await loadWarehouseProducts(warehouseId);
+                        } catch (error) {
+                            console.error('Error deleting product: ', error);
+                            alert('Failed to delete product. Please try again.');
+                        }
+                    });
+    
+                    cardContainer.appendChild(card);
+                }
+            } else {
+                alert('Warehouse not found.');
+            }
+        }
+    </script>
+    
+    </head>
+    <body>
+        <div class="navbar">
+            <div class="logo-title">
+                <img src="logo.png" alt="Logo">
+                <h1>Warehouse Management</h1>
+                
+            </div>
+            <div>
+                <h2>Welcome, <span class="warehouse-name"></span></h2>
+                <a href="orders.html"><button>orders</button></a>
+                <button id="statusToggle">Toggle Status</button>
+                <label id="statusLabel">Status: </label>
+            </div>
+        </div>
+    
+        
+    
+        <div class="add-product">
+            <h2>Add New Product</h2>
+            <form id="addProductForm">
+                <input type="text" id="productName" placeholder="Product Name" required>
+                <input type="text" id="packageType" placeholder="Package Type" required>
+                <input type="number" id="quantity" placeholder="Quantity" required>
+                <input type="number" step="0.01" id="price" placeholder="Price" required>
+                <input type="text" id="imageurl" placeholder="Image URL" required>
+                <button type="submit">Add Product</button>
+            </form>
+        </div>
+    
+        <div class="card-container" id="productCardContainer">
+            <!-- Product cards will be dynamically loaded here -->
+        </div>
+    </body>
+    </html>
+    

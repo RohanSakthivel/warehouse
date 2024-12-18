@@ -1,0 +1,382 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Orders</title>
+    <style>
+        /* Apple-Inspired Nano Order Card Theme */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f7;
+            color: #1d1d1f;
+            line-height: 1.6;
+        }
+    
+        header {
+            background: linear-gradient(90deg, #0071e3, #1d1d1f);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+    
+        header h1 {
+            font-size: 2.5em;
+            font-weight: 700;
+            margin: 0;
+        }
+    
+        header .warehouse-name {
+            font-size: 1.2em;
+            margin-top: 5px;
+            opacity: 0.8;
+        }
+    
+        main {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+    
+        .order-container {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            width: 100%;
+            max-width: 400px;
+            margin: 15px 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+    
+        .card {
+  max-width: 320px;
+  border-width: 1px;
+  border-color: rgba(219, 234, 254, 1);
+  border-radius: 1rem;
+  background-color: rgba(255, 255, 255, 1);
+  padding: 1rem;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  grid-gap: 1rem;
+  gap: 1rem;
+}
+
+.icon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background-color: rgba(96, 165, 250, 1);
+  padding: 0.5rem;
+  color: rgba(255, 255, 255, 1);
+}
+
+.icon svg {
+  height: 1rem;
+  width: 1rem;
+}
+
+.alert {
+  font-weight: 600;
+  color: rgba(107, 114, 128, 1);
+}
+
+.message {
+  margin-top: 1rem;
+  color: rgba(107, 114, 128, 1);
+}
+
+.actions {
+  margin-top: 1.5rem;
+}
+
+.actions a {
+  text-decoration: none;
+}
+
+.mark-as-read, .read {
+  display: inline-block;
+  border-radius: 0.5rem;
+  width: 100%;
+  padding: 0.75rem 1.25rem;
+  text-align: center;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 600;
+}
+
+.read {
+  background-color: rgba(59, 130, 246, 1);
+  color: rgba(255, 255, 255, 1);
+}
+
+.mark-as-read {
+  margin-top: 0.5rem;
+  background-color: rgba(249, 250, 251, 1);
+  color: rgba(107, 114, 128, 1);
+  transition: all .15s ease;
+}
+
+.mark-as-read:hover {
+  background-color: rgb(230, 231, 233);
+}
+@media (max-width: 480px) {
+    .mark-as-read, .read{
+        width:80% ;
+    }
+    
+}
+    
+        strong {
+            display: inline-block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+    
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 10px 0;
+        }
+    
+        li {
+            background: #f9f9f9;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+    
+        button {
+            background: #0071e3;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 0.9em;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+    
+        button:hover {
+            background: #005bb5;
+            transform: scale(1.05);
+        }
+    
+        button:focus {
+            outline: 2px solid #005bb5;
+            outline-offset: 2px;
+        }
+    
+        footer {
+            background: #1d1d1f;
+            color: #f5f5f7;
+            text-align: center;
+            padding: 10px;
+            font-size: 0.8em;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+    
+        footer p {
+            margin: 0;
+        }
+    
+        .error-message {
+            color: #d32f2f;
+            font-weight: 600;
+            margin-top: 20px;
+            text-align: center;
+        }
+    
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2em;
+            }
+    
+            .order-container {
+                width: 95%;
+            }
+    
+            button {
+                width: 100%;
+                padding: 8px;
+            }
+        }
+    
+        @media (max-width: 480px) {
+            header h1 {
+                font-size: 1.8em;
+            }
+    
+            .order-container {
+                padding: 15px;
+            }
+    
+            button {
+                font-size: 0.85em;
+            }
+        }
+        .img-h{
+            width: 90px;
+            height: 90px;
+            border-radius: 15px; 
+        }
+    </style>
+    
+    <script type="module">
+        // Import Firebase libraries
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import { getFirestore, collection, getDocs, updateDoc, doc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+        // Firebase configuration for order placement
+        const firebaseConfigOrders = {
+            apiKey: "AIzaSyD4_h-2b2_IjrfvSKOxHrL9gWotG-SanFo",
+            authDomain: "zolowworder.firebaseapp.com",
+            projectId: "zolowworder",
+            storageBucket: "zolowworder.appspot.com",
+            messagingSenderId: "996982358637",
+            appId: "1:996982358637:web:1adcf03392a68d5c6f3564",
+            measurementId: "G-4L2GTKRRMF"
+        };
+
+        // Initialize Firebase app
+        const appOrders = initializeApp(firebaseConfigOrders, "orders");
+
+        // Initialize Firestore instance
+        const dbOrders = getFirestore(appOrders);
+
+        document.addEventListener('DOMContentLoaded', async function() {
+            const warehouseId = sessionStorage.getItem('currentWarehouseId');
+            const warehouseName = sessionStorage.getItem('currentWarehouseName');
+            const orderContainer = document.getElementById('order-container');
+            const errorContainer = document.getElementById('error-message');
+
+            if (!warehouseId || !warehouseName) {
+                alert('Please log in first!');
+                window.location.href = 'login.html';
+                return;
+            }
+
+            document.querySelector('.warehouse-name').textContent = warehouseName;
+
+            try {
+                // Fetch orders from Firestore
+                const ordersSnapshot = await getDocs(collection(dbOrders, 'warehouseorder'));
+
+                // Check if there are no orders
+                if (ordersSnapshot.empty) {
+                    errorContainer.textContent = "No orders found.";
+                    return;
+                }
+
+                // Loop through each order
+                ordersSnapshot.forEach(doc => {
+                    const orderData = doc.data();
+                    const matchingProducts = orderData.products.filter(item => item.warehouseName === warehouseName);
+
+                    // Only display orders with matching warehouse name
+                    if (matchingProducts.length > 0) {
+                        const orderItem = document.createElement('div');
+                        orderItem.className = 'order-item';
+
+                        // Use default values for missing fields
+                        const timestamp = orderData.timestamp || "N/A";
+                        const total = orderData.total || "0";
+                        const address = orderData.address || "N/A";
+                        const pincode = orderData.pincode || "N/A";
+                        const email = orderData.email || "N/A";
+                        const mobileNumber = orderData.mobileNumber || "N/A";
+                        const latitude = orderData.latitude || "N/A";
+                        const longitude = orderData.longitude || "N/A";
+                        const status = orderData.status || "N/A";
+                        
+                        const url = status === "Delivered" ? "https://uxwing.com/wp-content/themes/uxwing/download/logistics-shipping-delivery/package-delivered-icon.png" : `https://uxwing.com/wp-content/themes/uxwing/download/logistics-shipping-delivery/product-package-cancelled-icon.svg`;
+                        const url2 = status === "Delivered" ? "https://png.pngtree.com/png-clipart/20230823/original/pngtree-delivery-service-concept-courier-customer-picture-image_8305813.png" : `https://static.vecteezy.com/system/resources/previews/008/525/672/non_2x/delivery-service-with-character-carry-the-box-safely-3d-illustration-png.png`;
+
+                        // Display order details
+                        orderItem.innerHTML = `
+                            <div class="card" >
+  <div class="header">
+    <p class="alert">PRODUCTS</p>
+        <ul>
+            ${matchingProducts.map(item => `<li>${item.product || "N/A"} (${item.packageType || "N/A"}, ₹${item.price || "0"})</li>`).join('')}
+        </ul>
+  </div>
+<img src="${url}" class="img-h">
+<img src="${url2}" class="img-h">
+  <p class="message">
+    
+    <strong>lat and long:</strong> ${latitude} and ${longitude} <br>
+    <strong>Order ID:</strong> ${doc.id} <br>
+    <strong>Timestamp:</strong> ${timestamp} <br>
+    <strong>status:</strong> ₹${status} <br>
+    <strong>Total Amount:</strong> ₹${total} <br>
+    <strong>Address:</strong> ${address}, ${pincode} <br>
+    <strong>Email:</strong> ${email} <br>
+    <strong>Mobile:</strong> ${mobileNumber} <br>
+    <strong>Warehouse:</strong> ${matchingProducts.map(item => item.warehouseName).join(', ')}<br>
+  </p>
+
+  <div class="actions">
+    <div class="read" onclick="markAsDelivered('${doc.id}')">
+        Mark as Delivered
+    </div>
+  </div>
+</div>
+                        `;
+
+                        orderContainer.appendChild(orderItem);
+                    }
+                });
+            } catch (error) {
+                console.error("Error fetching orders: ", error);
+                errorContainer.textContent = "Failed to load orders. Please try again later.";
+            }
+        });
+
+        window.markAsDelivered = async function(orderId) {
+            try {
+                const orderDoc = doc(dbOrders, 'warehouseorder', orderId);
+                await updateDoc(orderDoc, { status: 'Delivered' });
+                alert(`Order ${orderId} marked as delivered.`);
+                location.reload(); // Reload to update the UI
+            } catch (error) {
+                console.error("Error updating order status: ", error);
+                alert("Failed to update order status. Please try again later.");
+            }
+        }
+    </script>
+</head>
+<body>
+    <header>
+       <a href="warehouse.html"> 
+<button>
+  <svg height="16" width="16" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 1024 1024"><path d="M874.690416 495.52477c0 11.2973-9.168824 20.466124-20.466124 20.466124l-604.773963 0 188.083679 188.083679c7.992021 7.992021 7.992021 20.947078 0 28.939099-4.001127 3.990894-9.240455 5.996574-14.46955 5.996574-5.239328 0-10.478655-1.995447-14.479783-5.996574l-223.00912-223.00912c-3.837398-3.837398-5.996574-9.046027-5.996574-14.46955 0-5.433756 2.159176-10.632151 5.996574-14.46955l223.019353-223.029586c7.992021-7.992021 20.957311-7.992021 28.949332 0 7.992021 8.002254 7.992021 20.957311 0 28.949332l-188.073446 188.073446 604.753497 0C865.521592 475.058646 874.690416 484.217237 874.690416 495.52477z"></path></svg>
+  <span>Back</span>
+</button></a>
+        <h1>View Orders</h1>
+        <div class="warehouse-name"></div>
+    </header>
+    <main>
+        <div id="order-container" class="order-container"></div>
+        <div id="error-message" class="error-message"></div>
+    </main>
+    <footer>
+        <p>&copy; 2024 Zoloow. All rights reserved.</p>
+    </footer>
+</body>
+</html>
